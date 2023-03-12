@@ -19,11 +19,19 @@ public class Main {
 
         for(File file : dataFile){
             Data data = readPoints(file);
-            long startTime = System.currentTimeMillis();
-            Stack<Point> hull = Scan.scan(data.points());
-            long delta = System.currentTimeMillis() - startTime;
-            System.out.println(data.size()+"    "+delta);
+            long time = measureTime(
+                    () -> Scan.scan(data.points())
+            );
+            System.out.println(data.size()+"    "+time);
         }
+    }
+
+
+    static long measureTime(Runnable code){
+        long startTime = System.nanoTime();
+        code.run();
+        long endTime = System.nanoTime();
+        return endTime - startTime;
     }
 
     static Data readPoints(File file){

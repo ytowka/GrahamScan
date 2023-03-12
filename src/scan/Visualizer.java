@@ -15,17 +15,7 @@ public class Visualizer {
         StdDraw.setYscale(DataGenerator.MIN_COORD-1000, DataGenerator.MAX_COORD+1000);
         StdDraw.setPenColor(Color.black);
         StdDraw.enableDoubleBuffering();
-
-        File data = new File("data/size100.txt");
-        Scanner in = new Scanner(data);
-
-        int n = Integer.parseInt(in.nextLine());
-        Point[] points = new Point[n];
-
-        for (int i = 0; i < n; i++) {
-            String[] coords = in.nextLine().split(":");
-            points[i] = new Point(Float.parseFloat(coords[0]),Float.parseFloat(coords[1]));
-        }
+        StdDraw.clear();
 
         ArrayList<Point> userPoints = new ArrayList<>();
         StdDraw.setOnMouseClick(((x, y) -> {
@@ -42,12 +32,6 @@ public class Visualizer {
             }
             StdDraw.show();
         }));
-
-        Stack<Point> hull = Scan.scan(points);
-
-        drawPoints(points);
-        draw(hull);
-        StdDraw.show();
     }
 
     private static void drawPoints(Point[] points){
