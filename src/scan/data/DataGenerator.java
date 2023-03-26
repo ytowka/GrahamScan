@@ -1,31 +1,35 @@
-package scan;
+package scan.data;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class DataGenerator {
-    public static final String DATA = "data/";
+    public static final String DATA = "dataMedium/";
     public static final String SEPARATOR = ":";
-
-    public static final int FILE_COUNT = 1000-10;
 
     public static final double MIN_COORD = 0;
     public static final double MAX_COORD = 10_000;
 
 
-    public static final int MIN_SIZE = 1_000;
-    public static final int MAX_SIZE = 100_000;
+    public static final DataProfile dataSize = DataProfile.MEDIUM;
 
     public static void main(String[] args) {
         generateData();
     }
 
     public static void generateData(){
-        int size = MIN_SIZE;
-        int delta = (MAX_SIZE-MIN_SIZE) / (FILE_COUNT);
-        for (int i = 0; i < FILE_COUNT+1; i++) {
+        File folder = new File(DATA);
+        if(!folder.exists()){
+            folder.mkdir();
+        }
+        int size = dataSize.MIN_SIZE;
+        int delta = (dataSize.MAX_SIZE-dataSize.MIN_SIZE) / (dataSize.FILE_COUNT);
+        for (int i = 0; i < dataSize.FILE_COUNT+1; i++) {
             generateFile(size);
             size += delta;
-            System.out.println(i+" / "+FILE_COUNT);
+            System.out.println(i+" / "+dataSize.FILE_COUNT);
         }
     }
 

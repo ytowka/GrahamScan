@@ -1,12 +1,13 @@
-package scan;
+package scan.visual;
+
+import scan.Point;
+import scan.Scan;
+import scan.Stack;
+import scan.data.DataGenerator;
 
 import java.awt.*;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Scanner;
 
 public class Visualizer {
 
@@ -17,15 +18,15 @@ public class Visualizer {
         StdDraw.enableDoubleBuffering();
         StdDraw.clear();
 
-        ArrayList<Point> userPoints = new ArrayList<>();
+        ArrayList<scan.Point> userPoints = new ArrayList<>();
         StdDraw.setOnMouseClick(((x, y) -> {
-            userPoints.add(new Point((float) x, (float) y));
-            Point[] userPointArray = userPoints.toArray(new Point[0]);
+            userPoints.add(new scan.Point((float) x, (float) y));
+            scan.Point[] userPointArray = userPoints.toArray(new scan.Point[0]);
             StdDraw.clear();
             drawPoints(userPointArray);
             if(userPoints.size() >= 3){
                 long startTime = System.currentTimeMillis();
-                Stack<Point> hull = Scan.scan(userPointArray);
+                Stack<scan.Point> hull = Scan.scan(userPointArray).points();
                 long delta = System.currentTimeMillis() - startTime;
                 draw(hull);
                 StdDraw.text(100, 100, "time: "+delta+"ms");
@@ -34,16 +35,16 @@ public class Visualizer {
         }));
     }
 
-    private static void drawPoints(Point[] points){
+    private static void drawPoints(scan.Point[] points){
         StdDraw.setPenColor(Color.BLACK);
-        for (Point p : points) {
+        for (scan.Point p : points) {
             StdDraw.filledCircle(p.x(), p.y(), 50);
         }
     }
 
-    private static void draw(Stack<Point> hull){
-        Point first = hull.peak();
-        Point last = hull.peak();
+    private static void draw(Stack<scan.Point> hull){
+        scan.Point first = hull.peak();
+        scan.Point last = hull.peak();
         StdDraw.setPenColor(Color.RED);
 
         while (!hull.isEmpty()) {
