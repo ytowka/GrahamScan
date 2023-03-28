@@ -8,10 +8,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
+        Locale.setDefault(Locale.GERMANY);
         File dataFolder = new File(DataGenerator.DATA);
         File[] dataFile = dataFolder.listFiles();
 
@@ -43,8 +46,12 @@ public class Main {
             long time = measureTime(
                     () -> iters[0] += Scan.scan(data.points()).iterations()
             );
-            out.println(data.size()+"    "+time+"   "+iters[0]);
-            System.out.println(data.size()+":"+time+":"+iters[0]);
+            String dataSizeKilo = (data.size()/1000f+"").replace('.',',');
+            String timeMs = ((time/1000)/1000f+"").replace('.',',');
+            String itersKilo = (iters[0]/100/10f+"").replace('.',',');
+
+            out.println(dataSizeKilo+";"+timeMs+";"+itersKilo);
+            System.out.println(dataSizeKilo+";"+timeMs+";"+itersKilo);
         }
         out.close();
     }
