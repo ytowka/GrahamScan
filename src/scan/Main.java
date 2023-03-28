@@ -42,13 +42,13 @@ public class Main {
 
         for(File file : dataFile){
             Data data = readPoints(file);
-            final int[] iters = {0};
-            long time = measureTime(
-                    () -> iters[0] += Scan.scan(data.points()).iterations()
-            );
+            int iters = 0;
+            long startTime = System.nanoTime();
+            iters += Scan.scan(data.points()).iterations();
+            long time = System.nanoTime() - startTime;
             String dataSizeKilo = (data.size()/1000f+"").replace('.',',');
             String timeMs = ((time/1000)/1000f+"").replace('.',',');
-            String itersKilo = (iters[0]/100/10f+"").replace('.',',');
+            String itersKilo = (iters/100/10f+"").replace('.',',');
 
             out.println(dataSizeKilo+";"+timeMs+";"+itersKilo);
             System.out.println(dataSizeKilo+";"+timeMs+";"+itersKilo);
