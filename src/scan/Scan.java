@@ -62,6 +62,7 @@ public class Scan {
                 iterations += 1;
             }
             hull.push(points[i]);
+            iterations+=1;
         }
 
         return new Result(hull, iterations);
